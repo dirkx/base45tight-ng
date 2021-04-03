@@ -5,18 +5,32 @@ import java.nio.charset.StandardCharsets;
 public class Main {
 
     public static void main(String[] args) {
-        try {
-        byte[] in = "hello world".getBytes(StandardCharsets.UTF_8);
-        String encoded = Base45.encode(in);
-        byte[] decoded = new byte[0];
-            decoded = Base45.decode(encoded);
-            System.out.println(new String(in, StandardCharsets.UTF_8));
-            System.out.println(encoded);
-            System.out.println(new String(decoded,StandardCharsets.UTF_8));
-            assert (in == decoded);
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean decode = false;
+        if (args.length > 0) {
+            if ((args.length > 1 || args[1].startsWith("-h")) && !args[1].startsWith("-d")) {
+                System.err.println("Syntax: base45 [-d]");
+                System.exit(1);
+            }
+            decode = true;
         }
-        assert(false);
+        byte[] in = new byte[0];
+        try {
+            in = System.in.readAllBytes();
+        } catch (Exception e) {
+            System.err.printf("Read failed: "+ e.getLocalizedMessage());
+            System.exit(2);
+
+        }
+        try {
+        if (decode) {
+            System.out.write(Base45.decode(new String(in, StandardCharsets.UTF_8)));
+        } else {
+            System.out.print(Base45.encode(in));
+        }
+        } catch (Exception e) {
+            System.err.printf((decode ? "De" : "En") + "coding failed: "+ e.getLocalizedMessage());
+            System.exit(3);
+        }
+        System.exit(0);
     }
 }

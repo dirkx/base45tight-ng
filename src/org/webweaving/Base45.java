@@ -62,16 +62,5 @@ public class Base45 {
         byte[] joinedArray = Arrays.copyOf(array1, array1.length + array2.length);
         System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);
         return joinedArray;
-    }
-
-    ;
-
-    /*
-		factor := gobig.NewInt(int64(charsetIndex))
-
-		weight := new(gobig.Int)
-		weight.Exp(bigQrCharsetLen, gobig.NewInt(int64(inputLength-i-1)), nil)
-
-		result = result.Add(result, new(gobig.Int).Mul(factor, weight))
- */
+    };
 }
